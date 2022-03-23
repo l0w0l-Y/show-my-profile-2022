@@ -15,9 +15,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.kaleksandra.technocracy.TestApplicationRunner"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -47,7 +46,7 @@ ext {
     okhttp_version = "4.9.3"
     room_version = "2.4.2"
     dagger_version = "2.41"
-    hilt_version = "2.40.5"
+    hilt_version = "2.38.1"
 }
 
 dependencies {
@@ -61,6 +60,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$android_jetpack_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$android_jetpack_version")
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.navigation:navigation-fragment-ktx:$android_jetpack_version"
 
     // Testing libraries.
     testImplementation 'junit:junit:4.13.2'
@@ -77,22 +77,15 @@ dependencies {
     // OkHttp library for testing.
     testImplementation("com.squareup.okhttp3:mockwebserver:$okhttp_version")
 
-    // Navigation components.
-    implementation("androidx.navigation:navigation-fragment-ktx:$android_jetpack_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$android_jetpack_version")
-
-    // Navigation library for testing.
-    androidTestImplementation("androidx.navigation:navigation-testing:$android_jetpack_version")
-
     // Room library.
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-
     // To use Kotlin annotation processing tool (kapt).
     kapt 'androidx.room:room-compiler:2.4.2'
-
     // optional - Kotlin Extensions and Coroutines support for Room.
     implementation("androidx.room:room-ktx:$room_version")
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
 
     // Picasso library for image loading.
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -104,4 +97,12 @@ dependencies {
     // Hilt library.
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    // For Robolectric tests.
+    testImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
+    // ...with Kotlin.
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.38.1'
+    // To instrumented tests.
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.38.1'
+    // ...with Kotlin.
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
 }

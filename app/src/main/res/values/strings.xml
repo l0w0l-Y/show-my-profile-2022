@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Technocracy</string>
+    <string name="tv_date_of_birth">Date of birth</string>
+    <string name="tv_phone_number">Phone number</string>
+    <string name="btn_update">Update</string>
+    <string name="cd_location_icon">Location icon</string>
+    <string name="cd_call_button">Call</string>
+    <string name="cd_no_connection_to_the_server">No connection to the server</string>
 </resources>

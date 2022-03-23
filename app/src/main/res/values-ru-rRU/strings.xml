@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Technocracy</string>
+    <string name="tv_date_of_birth">Дата рождения</string>
+    <string name="tv_phone_number">Номер телефона</string>
+    <string name="btn_update">Обновить</string>
+    <string name="cd_location_icon">Иконка адреса</string>
+    <string name="cd_call_button">Позвонить</string>
+    <string name="cd_no_connection_to_the_server">Нет соединения с сервером</string>
+</resources>

@@ -8,11 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="hint">#717171</color>
-    <color name="primary">#0097A7</color>
-    <color name="link_blue">#1565C0</color>
-    <color name="background">#F9F9F9</color>
-    <color name="height1dp">#ECEFF3</color>
-    <color name="height2dp">#FFFFFF</color>
-    <color name="text_primary">#151515</color>
-    <color name="text_secondary">#E1E1E1</color>
+    <color name="primary">#B2EBF2</color>
+    <color name="link_blue">#90CAF9</color>
+    <color name="background">#121212</color>
+    <color name="height1dp">#1E1E1E</color>
+    <color name="height2dp">#222222</color>
+    <color name="text_primary">#E1E1E1</color>
+    <color name="text_secondary">#151515</color>
 </resources>

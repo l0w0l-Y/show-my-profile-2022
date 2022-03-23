@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -22,12 +24,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -38,6 +46,8 @@ ext {
     retrofit_version = "2.9.0"
     okhttp_version = "4.9.3"
     room_version = "2.4.2"
+    dagger_version = "2.41"
+    hilt_version = "2.40.5"
 }
 
 dependencies {
@@ -50,6 +60,7 @@ dependencies {
     // Jetpack components libraries.
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$android_jetpack_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$android_jetpack_version")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // Testing libraries.
     testImplementation 'junit:junit:4.13.2'
@@ -77,6 +88,20 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
 
+    // To use Kotlin annotation processing tool (kapt).
+    kapt 'androidx.room:room-compiler:2.4.2'
+
     // optional - Kotlin Extensions and Coroutines support for Room.
     implementation("androidx.room:room-ktx:$room_version")
+
+    // Picasso library for image loading.
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // Dagger 2 library.
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
+
+    // Hilt library.
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 }

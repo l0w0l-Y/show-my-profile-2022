@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kaleksandra.technocracy.R
@@ -21,7 +22,10 @@ import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
+    // Home view model.
     private val viewModel: HomeViewModel by viewModels()
+
+    //  Home fragment binding.
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = _binding!!
@@ -36,33 +40,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.profile.observe(viewLifecycleOwner) {
-            when (it) {
-                is ResponseResult.Success -> {
-                    if (it.body == null)
-                        viewModel.getRemoteProfile()
-                    else {
-                        updateProfile(it.body)
-                        binding.progressBar.visibility = View.GONE
-                        binding.imgNoConnection.visibility = View.GONE
-                        binding.cardView.visibility = View.VISIBLE
-                    }
-                }
-                is ResponseResult.Error -> {
-                    if (it.code == 500) {
-                        binding.cardView.visibility = View.GONE
-                        binding.imgNoConnection.visibility = View.VISIBLE
-                    }
-                    binding.progressBar.visibility = View.GONE
-                }
-                is ResponseResult.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                    binding.cardView.visibility = View.GONE
-                    binding.imgNoConnection.visibility = View.GONE
-                }
-            }
-        }
+        setupObservers()
+        setupUI()
+    }
 
+    private fun setupUI() {
         binding.apply {
             btnUpdate.setOnClickListener {
                 cardView.visibility = View.INVISIBLE
@@ -76,7 +58,6 @@ class HomeFragment : Fragment() {
                             callTheNumber((viewModel.profile.value as ResponseResult.Success<ProfileModel?>).body!!.phone)
                         }
                     }
-                    //viewModel.profile.value?.let { callTheNumber(it.phone) }
                 }
             }
 
@@ -86,13 +67,54 @@ class HomeFragment : Fragment() {
                         openMap((viewModel.profile.value as ResponseResult.Success<ProfileModel?>).body!!.location)
                     }
                 }
-                /*viewModel.profile.value.let {
-                    viewModel.profile.value?.let { openMap(it.location) }
-                }*/
             }
         }
     }
 
+    @SuppressLint("ShowToast")
+    private fun setupObservers() {
+        viewModel.profile.observe(viewLifecycleOwner) {
+            when (it) {
+                is ResponseResult.Success -> {
+                    // There is no such record in the database or null is returned.
+                    if (it.body == null)
+                        viewModel.getRemoteProfile()
+                    else {
+                        updateProfile(it.body)
+                        binding.progressBar.visibility = View.GONE
+                        binding.imgNoConnection.visibility = View.GONE
+                        binding.cardView.visibility = View.VISIBLE
+                    }
+                }
+                is ResponseResult.Error -> {
+                    // Server Error Handling.
+                    if (it.code == 500) {
+                        binding.cardView.visibility = View.GONE
+                        binding.imgNoConnection.visibility = View.VISIBLE
+                    } else
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG)
+
+                    binding.progressBar.visibility = View.GONE
+                }
+                is ResponseResult.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.cardView.visibility = View.GONE
+                    binding.imgNoConnection.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        // Clears the binding.
+        _binding = null
+    }
+
+    /**
+     * Opens an available map app and displays the location by coordinates and street.
+     */
     @SuppressLint("QueryPermissionsNeeded")
     private fun openMap(location: LocationModel) {
         val gmmIntentUri = Uri.parse(
@@ -107,16 +129,22 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Opens the number entry activity with the given number.
+     */
     private fun callTheNumber(phone: String) {
         val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null))
         startActivity(intent)
     }
 
+    /**
+     * Updates the profile card with the received data.
+     */
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun updateProfile(data: ProfileModel) {
         binding.apply {
             view.setBackgroundColor(viewModel.color!!)
-            tvDob.text = updateDate(data.dob)
+            tvDob.text = convertDateToLocale(data.dob)
             tvName.text = "${data.name.first} ${data.name.last}"
             tvPhone.text = data.phone
             tvCountry.text = data.location.country
@@ -131,9 +159,15 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Convert the date from the received format to the date format on the device.
+     */
     @SuppressLint("SimpleDateFormat")
-    private fun updateDate(dateString: String): String {
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private fun convertDateToLocale(
+        dateString: String,
+        dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+    ): String {
+        val formatter = SimpleDateFormat(dateFormat)
         val date = formatter.parse(dateString)
         return SimpleDateFormat.getDateInstance().format(date!!)
     }

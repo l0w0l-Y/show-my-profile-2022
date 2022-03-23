@@ -9,9 +9,16 @@ import com.kaleksandra.technocracy.feature.data_view.di.data.entities.ProfileEnt
 @Dao
 interface ProfileDao {
 
+    /**
+     * Gets one profile by id. If there is not a profile with this id, it returns null.
+     */
     @Query("SELECT * FROM profileEntity WHERE id = :id")
     fun getProfile(id: Int): ProfileEntity
 
+    /**
+     * Inserts a profile into the database.
+     * If such a profile already exists, it replaces it.
+     */
     @Insert(entity = ProfileEntity::class, onConflict = OnConflictStrategy.REPLACE)
     fun insertProfile(profileEntity: ProfileEntity)
 }

@@ -14,6 +14,9 @@ abstract class ProfileDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: ProfileDatabase? = null
 
+        /**
+         * get the database or create a new one if not found.
+         */
         fun getDatabase(context: Context): ProfileDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(

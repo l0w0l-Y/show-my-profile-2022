@@ -18,15 +18,18 @@ class HomeViewModel @Inject constructor(
     private val localProfileUseCase: LocalProfileUseCase
 ) : ViewModel() {
 
+    // Stores data when getting a profile.
     private var _profile = MutableLiveData<ResponseResult<ProfileModel?>>()
     val profile: LiveData<ResponseResult<ProfileModel?>>
         get() = _profile
 
+    // Stores card color.
     private var _color: Int? = randomColor()
     val color: Int?
         get() = _color
 
     init {
+        // Gets first(the only) profile.
         getLocalProfile(0)
     }
 
@@ -62,6 +65,9 @@ class HomeViewModel @Inject constructor(
             localProfileUseCase.insertLocalProfile(id, entity)
         }
 
+    /**
+     * Create random color. Returns Color Int.
+     */
     private fun randomColor(): Int {
         val rnd = Random()
         return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))

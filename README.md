@@ -1,90 +1,19 @@
-# Technocracy test task 2022
 ## Language:
-[English](https://github.com/l0w0l-Y/technocracy-test-task#eng)
+[English](https://github.com/l0w0l-Y/show-my-profile-2022#eng)
 
-[Русский](https://github.com/l0w0l-Y/technocracy-test-task#ru)
+[Русский](https://github.com/l0w0l-Y/show-my-profile-2022#ru)
 # RU
-## Тестовое задание
-Необходимо реализовать небольшое Android-приложение, отображающее фейковые
-данные пользователя.
-Результат должен быть выложен на github в открытом доступе
+# Покажи мой профиль
+Приложение показывает профиль случайного пользователя, данные которого созданы с помощью https://randomuser.me/api/
 
-**Требования к приложению**
+Данные пользователя можно обновить. последние данные пользователя сохраняются в локальной базе. По номеру телефона можно перейти в интерфейс звонка. По координатам можно посмотреть место на карте в пользовательском приложении.
 
-1. Отображение экрана профиля: фото, полное имя, дата рождение, номер телефона,
-страна, город, улица, координаты
-2. Возможность перехода по номеру телефона и координатам в стандартные
-системные приложения (будет плюсом)
-3. Возможность обновления данных на экране
-4. Хранение данных в БД через Room (будет плюсом)
-5. Приложение частично покрыто тестами (будет плюсом)
-
-**Стек**
-- Kotlin
-- MVVM (ViewModel + LiveData/Flow)
-- Kotlin Coroutines/RxJava (будет плюсом)
-- Retrofit 2
-- Glide/Picasso для загрузки фото
-- Clean Architecture (будет плюсом)
-- Dagger 2/Hilt (будет плюсом)
-
-**API**
-
-В качестве API для получения данных пользователя использовать
-https://randomuser.me/api/
-
-**Дизайн**
-
-Решения о дизайне остаются полностью на ваше усмотрение, но соблюдение
-требований Material Design по каждому применённому элементу или паттерну будет
-плюсом.
-
-**Оценивается**
-
-- Аккуратность ведения гита: именование коммитов, веток
-- Реализация приложения
-- Code-style: безопасный код (не приводящий к падению), правильные отступы,
-отсутствие ошибок в словах, никаких “магических чисел”
+![show_my_profile_screen_small](https://user-images.githubusercontent.com/79462005/159905011-24f6e8e0-feee-4336-bca7-3bdfa451562f.png)
 
 # ENG
-## Test task
-It is necessary to implement a small Android application that displays fake
-user data.
-The result should be posted on github in the public domain
+## Show my profile
+The application shows the profile of a random user whose data is generated using https://randomuser.me/api/
 
-**Application Requirements**
+User data can be updated. the last user data is stored in a local database. By phone number, you can go to the call interface. By coordinates, you can see the place on the map in the user application.
 
-1. Profile screen display: photo, full name, date of birth, phone number,
-country, city, street, coordinates
-2. Ability to navigate by phone number and coordinates to standard
-system apps (will be a plus)
-3. Ability to update data on the screen
-4. Storing data in the database through Room (will be a plus)
-5. The application is partially covered with tests (will be a plus)
-
-**Stack**
-- Kotlin
-- MVVM (ViewModel + LiveData/Flow)
-- Kotlin Coroutines/RxJava (will be a plus)
-- Retrofit 2
-- Glide/Picasso to upload photo
-- Clean Architecture (will be a plus)
-- Dagger 2/Hilt (will be a plus)
-
-**API**
-
-As an API to get user data use
-https://randomuser.me/api/
-
-**Design**
-
-Design decisions are entirely up to you, but compliance
-Material Design requirements for each applied element or pattern will be
-a plus.
-
-**Estimated**
-
-- Accuracy of maintaining a git: naming commits, branches
-- Application implementation
-- Code-style: safe code (not crashing), proper indentation,
-no misspellings, no “magic numbers”
+![show_my_profile_screen_small](https://user-images.githubusercontent.com/79462005/159905011-24f6e8e0-feee-4336-bca7-3bdfa451562f.png)

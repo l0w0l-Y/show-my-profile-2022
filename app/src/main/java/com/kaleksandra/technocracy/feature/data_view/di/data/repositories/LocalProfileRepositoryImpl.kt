@@ -1,16 +1,17 @@
 package com.kaleksandra.technocracy.feature.data_view.di.data.repositories
 
 import com.kaleksandra.technocracy.feature.data_view.di.data.db.dao.ProfileDao
-import com.kaleksandra.technocracy.feature.data_view.di.data.mappers.ProfileMapper
+import com.kaleksandra.technocracy.feature.data_view.di.data.entities.toProfileModel
 import com.kaleksandra.technocracy.feature.data_view.di.domain.models.ProfileModel
+import com.kaleksandra.technocracy.feature.data_view.di.domain.models.toProfileEntity
 import javax.inject.Inject
 
 class LocalProfileRepositoryImpl @Inject constructor(private val profileDao: ProfileDao) {
-    fun getLocalProfile(id: Int): ProfileModel? {
-        return ProfileMapper.transform(profileDao.getProfile(id))
+    fun getLocalProfile(id: Int): ProfileModel {
+        return profileDao.getProfile(id).toProfileModel()
     }
 
     fun insertLocalProfile(id: Int, model: ProfileModel) {
-        return profileDao.insertProfile(ProfileMapper.transform(id, model))
+        return profileDao.insertProfile(model.toProfileEntity(id))
     }
 }

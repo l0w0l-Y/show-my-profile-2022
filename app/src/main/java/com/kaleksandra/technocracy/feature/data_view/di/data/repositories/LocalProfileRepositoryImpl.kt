@@ -7,11 +7,11 @@ import com.kaleksandra.technocracy.feature.data_view.di.domain.models.toProfileE
 import javax.inject.Inject
 
 class LocalProfileRepositoryImpl @Inject constructor(private val profileDao: ProfileDao) {
-    fun getLocalProfile(id: Int): ProfileModel {
+    suspend fun getLocalProfile(id: Int): ProfileModel {
         return profileDao.getProfile(id).toProfileModel()
     }
 
-    fun insertLocalProfile(id: Int, model: ProfileModel) {
+    suspend fun insertLocalProfile(id: Int, model: ProfileModel) {
         return profileDao.insertProfile(model.toProfileEntity(id))
     }
 }

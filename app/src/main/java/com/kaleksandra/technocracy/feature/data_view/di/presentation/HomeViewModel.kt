@@ -4,8 +4,7 @@ import android.graphics.Color
 import androidx.lifecycle.*
 import com.kaleksandra.technocracy.core.ResponseResult
 import com.kaleksandra.technocracy.feature.data_view.di.domain.models.ProfileModel
-import com.kaleksandra.technocracy.feature.data_view.di.domain.use_cases.LocalProfileUseCase
-import com.kaleksandra.technocracy.feature.data_view.di.domain.use_cases.RemoteProfileUseCase
+import com.kaleksandra.technocracy.feature.data_view.di.domain.use_cases.ProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,8 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val remoteProfileUseCase: RemoteProfileUseCase,
-    private val localProfileUseCase: LocalProfileUseCase
+    private val profileUseCase: ProfileUseCase
 ) : ViewModel() {
 
     // Stores data when getting a profile.
@@ -37,7 +35,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _profile.postValue(ResponseResult.Loading(Unit))
 
-            when (val response = remoteProfileUseCase.getProfile()) {
+            when (val response = profileUseCase.getRemoteProfile()) {
                 is ResponseResult.Success -> {
                     insertLocalProfile(0, response.body)
                     _color = randomColor()
@@ -55,14 +53,14 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _profile.postValue(ResponseResult.Loading(Unit))
 
-            val profile = localProfileUseCase.getLocalProfile(id)
+            val profile = profileUseCase.getLocalProfile(id)
             _profile.postValue(ResponseResult.Success(profile))
         }
     }
 
     private fun insertLocalProfile(id: Int, entity: ProfileModel) =
         viewModelScope.launch(Dispatchers.IO) {
-            localProfileUseCase.insertLocalProfile(id, entity)
+            profileUseCase.insertLocalProfile(id, entity)
         }
 
     /**

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.kaleksandra.technocracy.feature.data_view.di.domain.models.*
 
 @Entity
 data class ProfileEntity(
@@ -20,3 +21,26 @@ data class ProfileEntity(
     @NonNull @ColumnInfo(name = "coordinates_longitude") val coordinatesLongitude: String,
     @NonNull @ColumnInfo(name = "picture_large") val pictureLarge: String
 )
+
+fun ProfileEntity.toProfileModel(): ProfileModel {
+    val profile: ProfileModel?
+    profile = ProfileModel(
+        this.date,
+        LocationModel(
+            this.locationCity,
+            CoordinatesModel(
+                this.coordinatesLatitude,
+                this.locationCountry
+            ),
+            this.locationCountry,
+            StreetModel(
+                this.locationStreetName,
+                this.locationStreetNumber
+            )
+        ),
+        NameModel(this.name, this.surname),
+        this.phone,
+        this.pictureLarge
+    )
+    return profile
+}

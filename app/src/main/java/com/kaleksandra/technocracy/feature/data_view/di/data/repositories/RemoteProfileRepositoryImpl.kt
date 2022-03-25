@@ -2,7 +2,7 @@ package com.kaleksandra.technocracy.feature.data_view.di.data.repositories
 
 import com.kaleksandra.technocracy.core.ResponseResult
 import com.kaleksandra.technocracy.feature.data_view.di.data.ProfileApiService
-import com.kaleksandra.technocracy.feature.data_view.di.data.mappers.ProfileMapper
+import com.kaleksandra.technocracy.feature.data_view.di.data.dto.profile.toProfileModel
 import com.kaleksandra.technocracy.feature.data_view.di.domain.models.ProfileModel
 import com.kaleksandra.technocracy.feature.data_view.di.domain.repositories.RemoteProfileRepository
 import retrofit2.HttpException
@@ -16,7 +16,7 @@ class RemoteProfileRepositoryImpl @Inject constructor(
 
     override suspend fun getProfile(): ResponseResult<ProfileModel> {
         return try {
-            ResponseResult.Success(ProfileMapper.transform(apiService.getProfile().body()!!))
+            ResponseResult.Success(apiService.getProfile().body()!!.toProfileModel())
         } catch (e: HttpException) {
             ResponseResult.Error(e.code(), e.message())
         } catch (e: IOException) {
